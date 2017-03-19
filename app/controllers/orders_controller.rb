@@ -16,6 +16,12 @@ class OrdersController < ApplicationController
   # GET /orders/1
   # GET /orders/1.json
   def show
+    @order = Order.find params[:id]
+    unless session[:authorize] == @order.user_id
+      flash[:notice] = "You don't have access to that order!"
+      redirect_to customers_path(session[:customer_id])
+      return
+    end
   end
 
   # GET /orders/new

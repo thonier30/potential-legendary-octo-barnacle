@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  skip_before_action :authorize
+  skip_before_action :authorize, only: [:show]
   before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   # GET /products
@@ -16,6 +16,10 @@ class ProductsController < ApplicationController
   # GET /products/new
   def new
     @product = Product.new
+  end
+
+  def admin?
+    role == 'admin'
   end
 
   # GET /products/1/edit
@@ -37,10 +41,11 @@ class ProductsController < ApplicationController
       end
     end
   end
-
+#####################################################################################################################
   # PATCH/PUT /products/1
   # PATCH/PUT /products/1.json
   def update
+
     respond_to do |format|
       if @product.update(product_params)
         format.html { redirect_to @product, notice: 'Product was successfully updated.' }
